@@ -33,12 +33,14 @@ class NotificationScriptMessageHandler: NSObject, WKScriptMessageHandler {
                 return
         }
         /// Possible substitution: let value = (dict["value"] as? String).map{ Int($0) }
-        _ = observer.send((value, units as String))
+        let _ = observer.send((value, units as String))
     }
 }
 
 let userContentController = WKUserContentController()
 let subject = PassthroughSubject<FastEvents, Never>()
+
+/// Why can't this be a subscriber?
 let handler = NotificationScriptMessageHandler(observer: subject)
 userContentController.add(handler, name: "notification")
 
@@ -72,14 +74,17 @@ let nonDuplicateEvents = subject.removeDuplicates { (x, y) -> Bool in
     return x.0 == y.0 && x.1 == y.1
 }
 
-_ = nonDuplicateEvents.first().sink { (_) in
+/// Apparently, these need to exist and cant' be a `_`?
+let x = nonDuplicateEvents.first().sink { (_) in
     print("Started receiving speed data - waiting for it to stabilize.")
 }
 
 enum TimeoutError {
     case stoppedReceivingEvents
 }
-_ = nonDuplicateEvents.scan(nil, { (_, currentEvent) in
+
+/// Apparently, these need to exist and cant' be a `_`?
+let y = nonDuplicateEvents.scan(nil, { (_, currentEvent) in
         return currentEvent
     }).timeout(5.0, scheduler: DispatchQueue.main)
     .last()
