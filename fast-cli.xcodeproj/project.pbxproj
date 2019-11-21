@@ -3,12 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		4258404E238099E0006078C5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4258404D238099E0006078C5 /* main.swift */; };
-		42B049552381A63D001374C1 /* Erik in Frameworks */ = {isa = PBXBuildFile; productRef = 42B049542381A63D001374C1 /* Erik */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,7 +32,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42B049552381A63D001374C1 /* Erik in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,7 +79,6 @@
 			);
 			name = "fast-cli";
 			packageProductDependencies = (
-				42B049542381A63D001374C1 /* Erik */,
 			);
 			productName = "fast-cli";
 			productReference = 4258404A238099E0006078C5 /* fast-cli */;
@@ -112,7 +109,6 @@
 			);
 			mainGroup = 42584041238099E0006078C5;
 			packageReferences = (
-				42B049532381A63D001374C1 /* XCRemoteSwiftPackageReference "Erik" */,
 			);
 			productRefGroup = 4258404B238099E0006078C5 /* Products */;
 			projectDirPath = "";
@@ -292,25 +288,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		42B049532381A63D001374C1 /* XCRemoteSwiftPackageReference "Erik" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/codeOfRobin/Erik";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		42B049542381A63D001374C1 /* Erik */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 42B049532381A63D001374C1 /* XCRemoteSwiftPackageReference "Erik" */;
-			productName = Erik;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 42584042238099E0006078C5 /* Project object */;
 }
