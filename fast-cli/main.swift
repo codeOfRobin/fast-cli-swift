@@ -52,16 +52,14 @@ document.querySelector("#speed-value").addEventListener('DOMSubtreeModified', fu
 })
 """
 
-let userScript = WKUserScript(source: source,
-                              injectionTime: .atDocumentEnd,
-                              forMainFrameOnly: true)
+let userScript = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
 userContentController.addUserScript(userScript)
 
 let configuration = WKWebViewConfiguration()
 configuration.userContentController = userContentController
 
-let webview = WKWebView(frame: CGRect.init(origin: .zero, size: CGSize(width: 100, height: 100)), configuration: configuration)
-webview.load(URLRequest.init(url: fastURL))
+let webView = WKWebView(frame: CGRect.init(origin: .zero, size: CGSize(width: 100, height: 100)), configuration: configuration)
+webView.load(URLRequest.init(url: fastURL))
 
 class XCCheckDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
