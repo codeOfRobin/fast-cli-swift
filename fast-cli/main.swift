@@ -17,6 +17,16 @@ enum TimeoutError {
     case stoppedReceivingEvents
 }
 
+let STDERR = FileHandle.standardError
+let STDOUT = FileHandle.standardOutput
+
+extension FileHandle {
+    internal func write(string: String) {
+        guard let data = string.data(using: .utf8) else { return }
+        self.write(data)
+    }
+}
+
 class FastCLIDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler {
 
     /// This was supposed to be a Subscriber but I kept getting a `Fatal error: API Violation: received an unexpected value before receiving a Subscription: file`. Perhaps I should make a custom publisher? 🤷‍♀️
@@ -58,7 +68,7 @@ document.querySelector("#speed-value").addEventListener('DOMSubtreeModified', fu
 
         /// Apparently, these need to exist and cant' be a `_`?
         let x = nonDuplicateEvents.first().sink { (_) in
-            print("Started receiving speed data - waiting for it to stabilize.")
+            STDOUT.write(string: "Started receiving speed data - waiting for it to stabilize.")
         }
         
         /// Apparently, these need to exist and cant' be a `_`?
@@ -68,7 +78,7 @@ document.querySelector("#speed-value").addEventListener('DOMSubtreeModified', fu
             .last()
             .sink(receiveValue: { (event) in
                 if let finalEvent = event {
-                    print("Your speed is \(finalEvent.speed) \(finalEvent.unit)")
+                    STDOUT.write(string: "Your speed is \(finalEvent.speed) \(finalEvent.unit)")
                     NSApplication.shared.terminate(nil)
                 }
             })
