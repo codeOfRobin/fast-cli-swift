@@ -17,6 +17,34 @@ enum TimeoutError {
     case stoppedReceivingEvents
 }
 
+let STDERR = FileHandle.standardError
+let STDOUT = FileHandle.standardOutput
+
+extension FileHandle {
+    internal func write(string: String) {
+        guard let data = string.data(using: .utf8) else { return }
+        self.write(data)
+    }
+}
+
+enum ANSIColor: String {
+    case `default` = "\u{001B}[0;0m"
+    case black = "\u{001B}[0;30m"
+    case red = "\u{001B}[0;31m"
+    case green = "\u{001B}[0;32m"
+    case yellow = "\u{001B}[0;33m"
+    case blue = "\u{001B}[0;34m"
+    case magenta = "\u{001B}[0;35m"
+    case cyan = "\u{001B}[0;36m"
+    case white = "\u{001B}[0;37m"
+}
+
+extension String {
+    func colorized(_ color: ANSIColor) -> String {
+        return color.rawValue + self + ANSIColor.default.rawValue
+    }
+}
+
 class FastCLIDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler {
 
     /// This was supposed to be a Subscriber but I kept getting a `Fatal error: API Violation: received an unexpected value before receiving a Subscription: file`. Perhaps I should make a custom publisher? 🤷‍♀️
@@ -58,7 +86,7 @@ document.querySelector("#speed-value").addEventListener('DOMSubtreeModified', fu
 
         /// Apparently, these need to exist and cant' be a `_`?
         let x = nonDuplicateEvents.first().sink { (_) in
-            print("Started receiving speed data - waiting for it to stabilize.")
+            STDOUT.write(string: "Started receiving speed data - waiting for it to stabilize.")
         }
         
         /// Apparently, these need to exist and cant' be a `_`?
@@ -68,7 +96,7 @@ document.querySelector("#speed-value").addEventListener('DOMSubtreeModified', fu
             .last()
             .sink(receiveValue: { (event) in
                 if let finalEvent = event {
-                    print("Your speed is \(finalEvent.speed) \(finalEvent.unit)")
+                    STDOUT.write(string: "Your speed is " + "↓ \(finalEvent.speed) \(finalEvent.unit)".colorized(.green))
                     NSApplication.shared.terminate(nil)
                 }
             })
